@@ -1,5 +1,6 @@
 from adapt.intent import IntentBuilder
 from mycroft import MycroftSkill, intent_handler
+from mycroft.util.parse import extract_number
 import re
 from . import brion_pysin_lib
 
@@ -17,7 +18,13 @@ class CutUp(MycroftSkill):
 
     @intent_handler(IntentBuilder("").require('Set'))
     def handle_pysin_brion_set(self, message):
-        self.speak( 'configed %s' % ( message.data.get('Set' ) ) )
+        possible_setting = message.data.get('Set')
+        resp = self.get_response('ask.set.what.value', data={'setting':possible_setting})
+        if not resp:
+           return
+        value = extract_number( resp, ordinals=True ) 
+        self.settings[possible_setting] = value
+        self.speak( 'set %s to %d' % ( possible_setting, value ) )
 
     @intent_handler(IntentBuilder("").require("Words"))
     def handle_pysin_brion(self, message):
