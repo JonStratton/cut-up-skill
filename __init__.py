@@ -7,6 +7,7 @@ from . import brion_pysin_lib
 class CutUp(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
+        self.string_to_frag = {'sentance':'sent'}
         if ( not self.settings.get('frag_type') ) or self.settings.get('frag_type') == 'None':
             self.settings['frag_type'] = 'word';
         if ( not self.settings.get('min_chunk') ) or self.settings.get('min_chunk') == 'None':
@@ -16,20 +17,29 @@ class CutUp(MycroftSkill):
         if ( not self.settings.get('randomness') ) or self.settings.get('randomness') == 'None':
             self.settings['randomness'] = 75
 
-    @intent_handler(IntentBuilder("").require('Set'))
-    def handle_pysin_brion_set(self, message):
-        possible_setting = message.data.get('Set')
-        resp = self.get_response('ask.set.what.value', data={'setting':possible_setting})
-        if not resp:
-           return
-        value = extract_number( resp, ordinals=True ) 
-        self.settings[possible_setting] = value
-        self.speak( 'set %s to %d' % ( possible_setting, value ) )
+    @intent_handler(IntentBuilder('').require('Set').require('FragmentType'))
+    def handle_pysin_brion_set_frag(self, message):
+        poss_frag = message.data.get('FragmentType')
+        frag_type = self.string_to_frag.get( poss_frag, poss_frag ) # lib defaults to "char" ;)
+        self.settings['frag_type'] = frag_type
+        self.speak( 'set to %s' % ( frag_type ) )
 
-    @intent_handler(IntentBuilder("").require("Words"))
+    @intent_handler(IntentBuilder('').require('Set').require('Minimum'))
+    def handle_pysin_brion_set_min(self, message):
+        self.settings['min_chunk'] = extract_number( message.data.get('utterance') ) 
+
+    @intent_handler(IntentBuilder('').require('Set').require('Maximum'))
+    def handle_pysin_brion_set_max(self, message):
+        self.settings['max_chunk'] = extract_number( message.data.get('utterance') ) 
+
+    @intent_handler(IntentBuilder('').require('Set').require('Randomness'))
+    def handle_pysin_brion_set_rand(self, message):
+        self.settings['randomness'] = extract_number( message.data.get('utterance') ) 
+
+    # The normal use
+    @intent_handler(IntentBuilder('').require('Say'))
     def handle_pysin_brion(self, message):
-        utterance = message.data.get('utterance')
-        cutup = brion_pysin_lib.traditional_cutup( message.data.get('Words'), self.settings['frag_type'], self.settings['min_chunk'], self.settings['max_chunk'], self.settings['randomness'] )
+        cutup = brion_pysin_lib.traditional_cutup( message.data.get('Say'), self.settings['frag_type'], self.settings['min_chunk'], self.settings['max_chunk'], self.settings['randomness'] )
         self.speak(cutup.strip())
 
 def create_skill():
