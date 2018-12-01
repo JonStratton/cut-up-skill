@@ -17,27 +17,26 @@ class CutUp(MycroftSkill):
         if ( not self.settings.get('randomness') ) or self.settings.get('randomness') == 'None':
             self.settings['randomness'] = 75
 
-    @intent_handler(IntentBuilder('').require('Set').require('FragmentType'))
+    @intent_handler(IntentBuilder('CutUpSetFragmentType').require('Set').require('FragmentType'))
     def handle_pysin_brion_set_frag(self, message):
         poss_frag = message.data.get('FragmentType')
         frag_type = self.string_to_frag.get( poss_frag, poss_frag ) # lib defaults to "char" ;)
         self.settings['frag_type'] = frag_type
-        self.speak( 'set to %s' % ( frag_type ) )
 
-    @intent_handler(IntentBuilder('').require('Set').require('Minimum'))
+    @intent_handler(IntentBuilder('CutUpSetMinimum').require('Set').require('Minimum'))
     def handle_pysin_brion_set_min(self, message):
         self.settings['min_chunk'] = extract_number( message.data.get('utterance') ) 
 
-    @intent_handler(IntentBuilder('').require('Set').require('Maximum'))
+    @intent_handler(IntentBuilder('CutUpSetMaximum').require('Set').require('Maximum'))
     def handle_pysin_brion_set_max(self, message):
         self.settings['max_chunk'] = extract_number( message.data.get('utterance') ) 
 
-    @intent_handler(IntentBuilder('').require('Set').require('Randomness'))
+    @intent_handler(IntentBuilder('CutUpSetRandomness').require('Set').require('Randomness'))
     def handle_pysin_brion_set_rand(self, message):
         self.settings['randomness'] = extract_number( message.data.get('utterance') ) 
 
     # The normal use
-    @intent_handler(IntentBuilder('').require('Say'))
+    @intent_handler(IntentBuilder('CutUpSay').require('Say'))
     def handle_pysin_brion(self, message):
         cutup = brion_pysin_lib.traditional_cutup( message.data.get('Say'), self.settings['frag_type'], self.settings['min_chunk'], self.settings['max_chunk'], self.settings['randomness'] )
         self.speak(cutup.strip())
