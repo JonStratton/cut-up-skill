@@ -1,18 +1,21 @@
-## Cut Up
+# <img src='https://rawgithub.com/FortAwesome/Font-Awesome/master/advanced-options/raw-svg/solid/robot.svg' card_color='#40DBB0' width='50' height='50' style='vertical-align:bottom'/> Randomize
 Repeat using the cut up technique.
 
-## Description
-Repeat what was said, but change the order randomly. Configurations can be used to modify the default min and max chunk size, randomness percent, and fragment type (char, word, sentance)
+## About 
+Repeat what was said, but change the order randomly. Configurations can be used to modify the default min and max chunk size, randomness percent, and fragment type (char, word, sentence)
 
-## Examples
- - "Cut up set minimum 1"
- - "Cut up set maximum 3"
- - "Cut up set randomness 75"
- - "Cut up set fragment type word"
- - "Cut up say this is a test"
+## Examples 
+* "Randomize Say this is a test"
+* "Randomize Set minimum 1"
+* "Randomize Set maximum 3"
+* "Randomize Set randomness 75"
+* "Randomize Set fragment type word"
 
+## Credits 
+Jon Stratton (@JonStratton)
 
-## Credits
-Jon Stratton
+## Category
+**Entertainment**
 
+## Tags
 
