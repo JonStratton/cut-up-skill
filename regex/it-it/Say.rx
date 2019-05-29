@@ -1,2 +1,2 @@
-Ritaglia dice (?P<Say>.*)
+ritaglia dice (?P<Say>.*)
 casualità dice (?P<Say>.*)

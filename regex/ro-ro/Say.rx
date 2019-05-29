@@ -1,0 +1,2 @@
+decupeaza cuvântul (?P<Say>.*)
+Cuvânt aleatoriu (?P<Say>.*)
