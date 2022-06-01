@@ -1,0 +1,2 @@
+dela upp tal (?P<Say>.*)
+slumpa tal (?P<Say>.*)
